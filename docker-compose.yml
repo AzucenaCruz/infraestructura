@@ -63,4 +63,5 @@ volumes:
 networks:
   redcliente:
   rednotificacion:
+  database:
     driver: bridge

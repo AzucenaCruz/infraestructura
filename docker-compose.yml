@@ -27,6 +27,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_DATABASE: manager
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      NOTIFICACION_URL: http://notificacion:8091
     ports:
       - "8080:8090"
     deploy:

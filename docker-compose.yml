@@ -23,7 +23,7 @@ services:
     depends_on:
       - notificacion
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/manager
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/clientess
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       NOTIFICACION_URL: http://notificacion:8091
@@ -43,7 +43,7 @@ services:
     depends_on:
       - mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/manager
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/clientess
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     ports:

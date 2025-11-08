@@ -21,9 +21,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/TestLD
-            git pull origin main
-            echo "docker-compose.yml actualizado"
-
-            docker-compose up -d
-            echo "Infraestructura actualizada"
+            docker compose down
+            docker compose build --no-cache
+            docker compose up -d
 

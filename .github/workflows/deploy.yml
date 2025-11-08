@@ -1,0 +1,29 @@
+name: Deploy infraestructura completa
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Conectarse al VPS y actualizar infraestructura
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/TestLD
+            git pull origin main
+            echo "docker-compose.yml actualizado"
+
+            docker-compose up -d
+            echo "Infraestructura actualizada"
+

@@ -21,7 +21,7 @@ services:
     build: ./docker-cliente
     container_name: cliente
     depends_on:
-      - mysql
+      - notificacion
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/manager
       SPRING_DATASOURCE_USERNAME: root

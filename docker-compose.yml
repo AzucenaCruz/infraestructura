@@ -15,7 +15,7 @@ services:
     volumes:
       - data-mysql:/var/lib/mysql
     networks:
-      - NetOs
+      - database
 
   cliente:
     build: ./docker-cliente
@@ -35,7 +35,7 @@ services:
           cpus: "1"
           memory: 1024M
     networks:
-      - NetOs
+      - redcliente
 
   notificacion:
     build: ./docker-notificacion
@@ -54,11 +54,13 @@ services:
           cpus: "2"
           memory: 2048M
     networks:
-      - NetOs
+      - redcliente
+      - rednotificacion
 
 volumes:
   data-mysql:
 
 networks:
-  NetOs:
+  redcliente:
+  rednotificacion:
     driver: bridge

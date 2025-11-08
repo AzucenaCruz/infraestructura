@@ -1,0 +1,65 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_DATABASE: manager
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - data-mysql:/var/lib/mysql
+    networks:
+      - NetOs
+
+  cliente:
+    build: ./docker-cliente
+    container_name: cliente
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_DATABASE: manager
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8080:8090"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1024M
+    networks:
+      - NetOs
+
+  notificacion:
+    build: ./docker-notificacion
+    container_name: notificacion
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_DATABASE: manager
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8081:8091"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2048M
+    networks:
+      - NetOs
+
+volumes:
+  data-mysql:
+
+networks:
+  NetOs:
+    driver: bridge

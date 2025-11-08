@@ -19,10 +19,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: |
-            docker-compose.yml
-            docker-cliente/**
-            docker-notificacion/**
+          source: "./*"
           target: ~/root/TestLD
 
       - name: 🚀 Desplegar en el VPS

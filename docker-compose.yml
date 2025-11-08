@@ -35,6 +35,7 @@ services:
           cpus: "1"
           memory: 1024M
     networks:
+      - database
       - redcliente
 
   notificacion:

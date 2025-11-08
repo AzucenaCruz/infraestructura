@@ -30,6 +30,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/root/TestLD
-            docker compose down
-            docker compose build --no-cache
-            docker compose up -d
+            # Detener y eliminar solo MySQL
+            docker rm -f mysql || true
+            # Eliminar solo el volumen de MySQL
+            docker volume rm data-mysql || true
+            # Levantar nuevamente todos los servicios
+            docker compose up -d --build

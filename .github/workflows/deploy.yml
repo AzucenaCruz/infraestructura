@@ -1,35 +1,38 @@
-name: 🚀 Deploy proyecto completo al VPS
+name: Deploy Servicios a VPS
 
 on:
   push:
     branches:
-      - "main"   # Se ejecuta al hacer push en la rama main
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📦 Checkout del repositorio
-        uses: actions/checkout@v4
+      # 1️⃣ Checkout del repositorio
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: 🧳 Copiar archivos al VPS
+      # 2️⃣ Copiar carpetas necesarias al VPS
+      - name: Copiar archivos al VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: "./*"
-          target: ~/root/TestLD
+          source: "./docker-cliente,./docker-notificacion,docker-compose.yml"
+          target: "~/TestLD"
 
-      - name: 🚀 Desplegar en el VPS
+      # 3️⃣ Ejecutar comandos SSH para levantar contenedores
+      - name: Levantar contenedores
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: 22
           script: |
-            cd ~/root/TestLD
+            cd ~/TestLD
             docker rm -f mysql || true
             docker volume rm data-mysql || true
             docker compose up -d --build

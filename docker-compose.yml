@@ -16,6 +16,11 @@ services:
       - data-mysql:/var/lib/mysql
     networks:
       - NetOs
+    healthcheck:
+    test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+    interval: 10s
+    timeout: 5s
+    retries: 5
 
   cliente:
     build: ./docker-cliente
@@ -23,10 +28,9 @@ services:
     depends_on:
       - mysql
     environment:
-      MYSQL_HOST: mysql
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_DATABASE: manager
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/manager
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
       NOTIFICACION_URL: http://notificacion:8091
     ports:
       - "8080:8090"
@@ -44,10 +48,9 @@ services:
     depends_on:
       - mysql
     environment:
-      MYSQL_HOST: mysql
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_DATABASE: manager
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/manager
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     ports:
       - "8081:8091"
     deploy:
